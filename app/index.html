@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<head>
+  <script src="https://d3js.org/d3.v5.min.js"></script>
+  <script src="https://code.jquery.com/jquery-2.2.4.min.js"
+    integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css?family=Open+Sans');
+
+
+    body {
+      font-family: 'Open Sans', sans-serif;
+    }
+
+    #result {
+      font-size: 1.2em;
+    }
+
+    .btn {
+      width: 200px;
+      float: left;
+      color: white;
+      background: #aaa;
+      border: 5px solid #aaa;
+      border-radius: 6px;
+
+      padding: 8px 8px;
+      text-align: center;
+      display: inline-block;
+      font-size: 1.2em;
+      margin: 4px 2px;
+      -webkit-transition-duration: 0.4s;
+      /* Safari */
+      transition-duration: 0.4s;
+      cursor: pointer;
+      text-decoration: none;
+      text-transform: uppercase;
+    }
+  </style>
+  <script>
+    let url = 'https://modelservice.ml-18a296af-d86.demo-aws.ylcu-atmi.cloudera.site/model';
+    let api_key = "ml4uwptzrtycx553ws8tfam4rfzrevug"
+    let image_name = "img_test_pneumonia"
+    var bob = {}
+
+    function go_fetch(img_name) {
+      //d3.select("#result").text("That looks like a ...");
+      //var canvas = document.getElementById("defaultCanvas0");
+      var image_data = getBase64Image(document.getElementById(img_name))
+      var post_data = {
+        accessKey: api_key,
+        request: {
+          image: image_data
+        }
+      };
+
+      fetch(url, {
+          method: 'POST', // or 'PUT'
+          body: JSON.stringify(post_data), // data can be `string` or {object}!
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        })
+        .then(res => res.json())
+        .then(function (response) {
+          d3.select("#prediction").text("Prediction : " + response.response.prediction)
+          d3.select("#prediction_value").text("Prediction Value : " + (response.response.prediction_value).toFixed(6))
+        })
+        .catch(error => console.error('Error:', error));
+    }
+
+    function getBase64Image(img) {
+      var canvas = document.createElement("canvas");
+      scaling = document.getElementById("img_test_normal").naturalWidth / 1000
+      canvas.width = img.naturalWidth / scaling;
+      canvas.height = img.naturalHeight / scaling;
+      var ctx = canvas.getContext("2d");
+      ctx.drawImage(img, 0, 0, img.naturalWidth, img.naturalHeight, 0, 0, canvas.width, canvas.height);
+      return canvas.toDataURL("image/png");
+    }
+
+    function get_new_image() {
+      fetch(window.location.origin + "/random_image", {
+          method: 'GET', // or 'PUT'
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        })
+        .then(res => res.json())
+        .then(function (response) {
+          d3.select("#img_test_normal").attr("src", "/" + response.file)
+          d3.select("#actual_value").text("Actual Value : " + response.file.substring(response.file.indexOf("/")+1,response.file.lastIndexOf("/")))
+          d3.select("#prediction").text("Prediction : ")
+          d3.select("#prediction_value").text("Prediction Value : ")
+        })
+        .catch(error => console.error('Error:', error));
+    }
+  </script>
+</head>
+
+<body>
+  Test Image
+  <div id="test_image">
+    <!--    <canvas id="img_test" width="500"></canvas>-->
+    <img id="img_test_normal" src="" width="500">
+    <!-- "NORMAL2-IM-1349-0001.jpeg" width="500"> -->
+    <!-- <img id="img_test_pneumonia" src="person992_bacteria_2919.jpeg" width="500"> -->
+
+  </div>
+  <div onclick="get_new_image();" class="btn btn1">New Image</div>
+  <div onclick="go_fetch('img_test_normal');" class="btn btn1">Predict</div>
+  <div style="clear:both;"></div>
+  <div>
+    <div id="actual_value">Actual Value : </div>
+    <div id="prediction">Prediction : </div>
+    <div id="prediction_value">Prediction Value : </div>
+  </div>
+  <script>
+    get_new_image();
+
+
+    //var image_data = getBase64Image(document.getElementById("img_test_pneumonia"))
+  </script>
+
+</body>
+
+</html>
