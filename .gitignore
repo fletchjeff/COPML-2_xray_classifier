@@ -1,0 +1,9 @@
+R
+node_modules
+*.pyc
+__pycache__
+.*
+!.gitignore
+notebooks/.ipynb_checkpoints
+.vscode
+.ipynb_checkpoints
