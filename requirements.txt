@@ -1,3 +1,6 @@
 pandas==1.1.5
 typing-extensions==3.7.4.3
 tensorflow==2.4.1
+boto3==1.17.62
+requests-kerberos==0.12.0
+requests==2.25.1
