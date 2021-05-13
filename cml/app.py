@@ -10,22 +10,23 @@ app= Flask(__name__,static_url_path='')
     
 @app.route('/')
 def index():
-  return "<script> window.location.href = '/web_app/index.html'</script>"
+  return "<script> window.location.href = '/app/index.html'</script>"
 
 @app.route("/random_image")
 def random_image():
-  normal_file = glob.glob("chest_xray/normal/*.jpeg")
-  pneumonia_file = glob.glob("chest_xray/pneumonia/*.jpeg")
-  all_files = normal_file + pneumonia_file
+  normal_file = glob.glob("data/test/normal/*.jpeg")
+  bacteria_file = glob.glob("data/test/bacteria/*.jpeg")
+  virus_file = glob.glob("data/test/virus/*.jpeg")
+  all_files = normal_file + bacteria_file + virus_file
   return jsonify({'file':random.choice(all_files)})
 
-@app.route('/web_app/<path:path>')
+@app.route('/app/<path:path>')
 def send_file(path):
-  return send_from_directory('web_app', path)
+  return send_from_directory('app', path)
 
-@app.route('/chest_xray/<path:path>')
+@app.route('/data/<path:path>')
 def send_image(path):
-  return send_from_directory('chest_xray', path)
+  return send_from_directory('data', path)
   
 if __name__=="__main__":
   app.run(host="127.0.0.1", 

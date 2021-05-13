@@ -22,9 +22,9 @@ def predict(args):
   raw_prediction = model.predict(im_array)
   prediction_value = tf.nn.sigmoid(raw_prediction).numpy()
   if prediction_value >= 0.5:
-    prediction = "pneumonia"
+    prediction = "virus"
   else:
-    prediction = "normal"
+    prediction = "bacteria"
   return {
     "prediction":prediction,
     "prediction_value":float(prediction_value)

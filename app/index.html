@@ -9,15 +9,27 @@
   <style>
     @import url('https://fonts.googleapis.com/css?family=Open+Sans');
 
-
     body {
       font-family: 'Open Sans', sans-serif;
+      max-width: 500px;
+      margin: auto;
     }
-
+    .header {
+        font-family: 'Open Sans', sans-serif;
+        font-weight: 300;
+        font-size: 35px;
+        text-align: center;
+        padding-top: 20px;
+        vertical-align: top;
+        line-height: 55px;
+    }
+    .content{
+      max-width: 460px;
+      margin: auto;
+    }
     #result {
       font-size: 1.2em;
     }
-
     .btn {
       width: 200px;
       float: left;
@@ -38,19 +50,26 @@
       text-decoration: none;
       text-transform: uppercase;
     }
+
+    #test_image {
+          display:block;
+          width:100%;
+          height:500px;
+          background-color:#eee;
+          overflow:hidden;
+
+    }
   </style>
   <script>
     let url = 'https://modelservice.ml-18a296af-d86.demo-aws.ylcu-atmi.cloudera.site/model';
-    let api_key = "ml4uwptzrtycx553ws8tfam4rfzrevug"
+    let api_key_1 = "my87udph3c9up73g7nwv3b3pdt1hzf4h"
+    let api_key_2 = "mgp9zye1k3rfx7hik70oeaibk4tw08rk"
     let image_name = "img_test_pneumonia"
-    var bob = {}
 
     function go_fetch(img_name) {
-      //d3.select("#result").text("That looks like a ...");
-      //var canvas = document.getElementById("defaultCanvas0");
-      var image_data = getBase64Image(document.getElementById(img_name))
-      var post_data = {
-        accessKey: api_key,
+      let image_data = getBase64Image(document.getElementById(img_name))
+      let post_data_1 = {
+        accessKey: api_key_1,
         request: {
           image: image_data
         }
@@ -58,17 +77,38 @@
 
       fetch(url, {
           method: 'POST', // or 'PUT'
-          body: JSON.stringify(post_data), // data can be `string` or {object}!
+          body: JSON.stringify(post_data_1), // data can be `string` or {object}!
           headers: {
             'Content-Type': 'application/json'
           }
         })
         .then(res => res.json())
         .then(function (response) {
-          d3.select("#prediction").text("Prediction : " + response.response.prediction)
-          d3.select("#prediction_value").text("Prediction Value : " + (response.response.prediction_value).toFixed(6))
+          d3.select("#prediction_model_1").text("Prediction Model 1 : " + response.response.prediction + " (" + response.response.prediction_value.toFixed(5) + ")")
+          if (response.response.prediction != "normal" ){
+                    let post_data_2 = {
+                    accessKey: api_key_2,
+                    request: {
+                      image: image_data
+                    }
+                  };
+
+                  fetch(url, {
+                      method: 'POST', // or 'PUT'
+                      body: JSON.stringify(post_data_2), // data can be `string` or {object}!
+                      headers: {
+                        'Content-Type': 'application/json'
+                      }
+                    })
+                    .then(res => res.json())
+                    .then(function (response) {
+                      d3.select("#prediction_model_2").text("Prediction Model 2 : " + response.response.prediction + " (" + response.response.prediction_value.toFixed(5) + ")")
+                    })
+                    .catch(error => console.error('Error:', error));  
+              }
         })
         .catch(error => console.error('Error:', error));
+          
     }
 
     function getBase64Image(img) {
@@ -82,6 +122,8 @@
     }
 
     function get_new_image() {
+      d3.select("#prediction_model_1").text("Prediction Model 1 : ...")
+      d3.select("#prediction_model_2").text("Prediction Model 2 : ...")
       fetch(window.location.origin + "/random_image", {
           method: 'GET', // or 'PUT'
           headers: {
@@ -91,7 +133,7 @@
         .then(res => res.json())
         .then(function (response) {
           d3.select("#img_test_normal").attr("src", "/" + response.file)
-          d3.select("#actual_value").text("Actual Value : " + response.file.substring(response.file.indexOf("/")+1,response.file.lastIndexOf("/")))
+          d3.select("#actual_value").text("Actual Value : " + response.file.substring(response.file.indexOf("/")+6,response.file.lastIndexOf("/")))
           d3.select("#prediction").text("Prediction : ")
           d3.select("#prediction_value").text("Prediction Value : ")
         })
@@ -101,27 +143,24 @@
 </head>
 
 <body>
-  Test Image
-  <div id="test_image">
-    <!--    <canvas id="img_test" width="500"></canvas>-->
-    <img id="img_test_normal" src="" width="500">
-    <!-- "NORMAL2-IM-1349-0001.jpeg" width="500"> -->
-    <!-- <img id="img_test_pneumonia" src="person992_bacteria_2919.jpeg" width="500"> -->
-
+  <div class="header">X-ray Classifier</div>
+  <div class="container">
+    <div id="test_image">
+      <img id="img_test_normal" src="" width="500">
+    </div>
   </div>
-  <div onclick="get_new_image();" class="btn btn1">New Image</div>
-  <div onclick="go_fetch('img_test_normal');" class="btn btn1">Predict</div>
-  <div style="clear:both;"></div>
-  <div>
-    <div id="actual_value">Actual Value : </div>
-    <div id="prediction">Prediction : </div>
-    <div id="prediction_value">Prediction Value : </div>
+  <div class="content">
+    <div onclick="get_new_image();" class="btn btn1">New Image</div>
+    <div onclick="go_fetch('img_test_normal');" class="btn btn1">Predict</div>
+    <div style="clear:both;"></div>
+    <div>
+      <div id="actual_value">Actual Value : </div>
+      <div id="prediction_model_1">Prediction Model 1: </div>
+      <div id="prediction_model_2">Prediction Model 2 : </div>
+    </div>
   </div>
   <script>
     get_new_image();
-
-
-    //var image_data = getBase64Image(document.getElementById("img_test_pneumonia"))
   </script>
 
 </body>

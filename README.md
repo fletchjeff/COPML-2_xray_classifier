@@ -1,6 +1,15 @@
 > this is here as a sample until I edit it.
 
-# Canceled Flight Prediction
+# Chest X-Ray Classifier
+
+
+```
+{
+  "image": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABwAAAAcCAYAAAByDd+UAAAARUlEQVRIS+3SwQkAQAwCQdN/0XclyELIa/MVEYZMkpfDGwe3tSXdFo2kkmIBnwaTtYKkTQjnkmKyVpC0CeFcUkzWCuekH906HAF1NLazAAAAAElFTkSuQmCC"
+}
+```
+
+
 This project is a Cloudera Machine Learning ([CML](https://www.cloudera.com/products/machine-learning.html)) **Applied Machine Learning Prototype** and has all the code and data needed to deploy an end-to-end machine learning project on a running CML instance.
 
 ![app](images/app.png)
@@ -17,10 +26,10 @@ The project is organized with the following folder structure:
 
 ```
 .
-├── code/           # Backend scripts, and notebooks needed to create project artifacts
+├── app/            # Backend scripts, and notebooks needed to create project artifacts
+├── cml/            # Directory to hold trained models
 ├── data/           # A post processed sample of the full dataset used for model training
-├── app/            # Assets needed to support the front end application
-├── images/         # A collection of images referenced in project docs
+├── notebooks/            # Assets needed to support the front end application
 ├── models/         # Directory to hold trained models
 ├── cdsw-build.sh   # Shell script used to build environment for experiments and models
 ├── README.md
