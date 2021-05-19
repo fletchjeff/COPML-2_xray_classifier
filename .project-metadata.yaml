@@ -1,0 +1,29 @@
+name: CML X-ray Classifier
+description: AMP to build an image classifier for chest xrays using tensorflow
+author: Jeff Fletcher
+specification_version: 1.0
+prototype_version: 1.0
+date: "2021-05-19"
+api_version: 1
+
+tasks:
+- type: run_session
+  name: Run project bootstrap
+  script: code/_bootstrapy.py
+  kernel: python3
+  memory: 4
+  cpu: 2
+  gpu: 0
+
+#- type: create_job
+#  name: Train Model 1
+#  entity_label: train_model_1
+#  script: 0_bootstrap.py
+#  arguments: None
+#  short_summary: Train the first model.
+#  environment:
+#    TASK_TYPE: CREATE/RUN_JOB
+#  kernel: python3
+#  memory: 24
+#  cpu: 4
+#  gpu: 1

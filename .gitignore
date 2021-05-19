@@ -5,6 +5,7 @@ node_modules
 __pycache__
 .*
 !.gitignore
+!.project-metadata.yaml
 notebooks/.ipynb_checkpoints
 .vscode
 .ipynb_checkpoints
