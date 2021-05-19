@@ -9,35 +9,14 @@ import numpy as np
 import boto3
 from tensorflow.keras.layers.experimental import preprocessing
 import matplotlib.pyplot as plt
+from cmlbootstrap import CMLBootstrap
 
 # # S3 connection
 # This will establish a boto3 connection to the S3 bucket where the images are stored
 
-IDBROKER_URL = "demo-aws-2-dl-idbroker0.demo-aws.ylcu-atmi.cloudera.site"
+cml = CMLBootstrap()
 
-from requests_kerberos import HTTPKerberosAuth
-r = requests.get("https://{}:8444/gateway/dt/knoxtoken/api/v1/token".format(IDBROKER_URL), auth=HTTPKerberosAuth())
-
-url = "https://{}:8444/gateway/aws-cab/cab/api/v1/credentials".format(IDBROKER_URL)
-headers = {
-    'Authorization': "Bearer "+ r.json()['access_token'],
-    'cache-control': "no-cache"
-    }
-
-response = requests.request("GET", url, headers=headers)
-
-ACCESS_KEY=response.json()['Credentials']['AccessKeyId']
-SECRET_KEY=response.json()['Credentials']['SecretAccessKey']
-SESSION_TOKEN=response.json()['Credentials']['SessionToken']
-
-
-client = boto3.client(
-    's3',
-    aws_access_key_id=ACCESS_KEY,
-    aws_secret_access_key=SECRET_KEY,
-    aws_session_token=SESSION_TOKEN,
-)
-
+client = cml.boto3_client(os.environ['IDBROKER'])
 # # Fetch the test and training data
 
 def get_file_paths(prefix):
@@ -208,5 +187,5 @@ print('Test accuracy :', accuracy)
 
 plot_hist(hist)
 
-model.save("model_2_efficient.h5")
+model.save("models/model_2_efficient.h5")
 
