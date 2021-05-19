@@ -9,7 +9,7 @@ api_version: 1
 tasks:
 - type: run_session
   name: Run project bootstrap
-  script: code/_bootstrapy.py
+  script: code/_bootstrap.py
   kernel: python3
   memory: 4
   cpu: 2
