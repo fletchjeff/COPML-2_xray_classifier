@@ -1,6 +1,5 @@
 !pip3 install --upgrade git+https://github.com/fletchjeff/cmlbootstrap#egg=cmlbootstrap
-
-#-r requirements.txt --progress-bar off
+!pip3 install -r requirements.txt --progress-bar off
 
 # Create the directories and upload data
 
