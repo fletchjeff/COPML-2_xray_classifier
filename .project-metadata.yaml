@@ -1,16 +1,18 @@
-name: CML X-ray Classifier
-description: AMP to build an image classifier for chest xrays using tensorflow
+name: ML Demo
+description: >-
+  AMP to build an image classifier for chest xrays using tensorflow
 author: Jeff Fletcher
+date: '"2021-05-19"
 specification_version: 1.0
-prototype_version: 1.0
-date: "2021-05-19"
-api_version: 1
-
+environment_variables:
+  TEST:
+    default: "Testing ENV"
+    description: "Access Key ID for accessing S3 bucket" 
 tasks:
   - type: run_session
     name: Run project bootstrap
     script: code/_bootstrap.py
     kernel: python3
-    memory: 4
-    cpu: 2
+    memory: 2
+    cpu: 1
     gpu: 0
