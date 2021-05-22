@@ -2,7 +2,7 @@ name: ML Demo
 description: >-
   AMP to build an image classifier for chest xrays using tensorflow
 author: Jeff Fletcher
-date: '"2021-05-19"
+date: "2021-05-19"
 specification_version: 1.0
 environment_variables:
   TEST:
