@@ -12,6 +12,6 @@ tasks:
     name: Run project bootstrap
     script: code/_bootstrap.py
     kernel: python3
-    memory: 2
-    cpu: 1
+    memory: 4
+    cpu: 2
     gpu: 0
