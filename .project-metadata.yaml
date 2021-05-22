@@ -6,3 +6,12 @@ prototype_version: 1.0
 specification_version: 1.0
 date: "2020-09-29"
 api_version: 1
+
+tasks:
+  - type: run_session
+    name: Run project bootstrap
+    script: code/_bootstrap.py
+    kernel: python3
+    memory: 2
+    cpu: 1
+    gpu: 0
