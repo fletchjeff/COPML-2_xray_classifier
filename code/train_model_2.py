@@ -1,6 +1,5 @@
 !ln -s /usr/local/cuda-11.1/targets/x86_64-linux/lib/libcusolver.so.11.0.1.105 /usr/local/cuda-11.1/targets/x86_64-linux/lib/libcusolver.so.10
 
-
 from PIL import Image
 from io import BytesIO
 import os
@@ -11,6 +10,8 @@ import boto3
 from tensorflow.keras.layers.experimental import preprocessing
 import matplotlib.pyplot as plt
 from cmlbootstrap import CMLBootstrap
+from subprocess import check_output
+from smart_open import open
 
 # # S3 connection
 # This will establish a boto3 connection to the S3 bucket where the images are stored
@@ -21,34 +22,27 @@ client = cml.boto3_client(os.environ['IDBROKER'])
 
 # # Fetch the test and training data
 
-def get_file_paths(prefix):
-  keys = []
-  kwargs = {'Bucket': s3_bucket, 'Prefix' : prefix }
-  while True:
-      resp = client.list_objects_v2(**kwargs)
-      for obj in resp['Contents']:
-          keys.append(obj['Key'])
-      try:
-          kwargs['ContinuationToken'] = resp['NextContinuationToken']
-      except KeyError:
-          break    
-  return keys
+def get_file_list(path):
+  file_list = []
+  hdfs_outout = check_output(['hdfs', 'dfs', '-ls' , path],universal_newlines=True)
+  for file in hdfs_outout.split("\n")[1:-1]:
+    if file.split(" ")[0][0] == '-':
+      file_list.append(file.split(" ")[-1])#.split("/")[-1])
+  return file_list
 
-s3_bucket = os.environ['STORAGE'].split("//")[1]
+image_storage = "{}/user/{}/data/xray".format(os.environ['STORAGE'],os.environ["HADOOP_USER_NAME"])
 
 batch_size = 32
 img_size = 224 
 
-#train_file_list = get_file_paths('datalake/data/xray/train/normal')
-train_file_list = get_file_paths('datalake/data/xray/train/bacteria')
-train_file_list = train_file_list + get_file_paths('datalake/data/xray/train/virus')
+train_file_list = get_file_list(image_storage + '/train/bacteria')
+train_file_list = train_file_list + get_file_list(image_storage + '/train/virus')
 
 image_data_array = np.empty(shape=(len(train_file_list),img_size, img_size, 3),dtype='int32')
 label_data_array = np.empty(shape=(len(train_file_list),),dtype='int32')
             
 for i,path in enumerate(train_file_list):
-  image_raw = client.get_object(Bucket=s3_bucket, Key=path)['Body'].read()       
-  img = Image.open(BytesIO(image_raw))
+  img = Image.open(open(path, 'rb', transport_params={'client': client}))
   img = img.resize((img_size,img_size),Image.ANTIALIAS)
   img = img.convert("RGB")
   img_np_array = np.asarray(img)
@@ -69,16 +63,14 @@ train_batches = tf.data.experimental.cardinality(train_dataset)
 validation_dataset = train_dataset.take(train_batches // 5)
 train_dataset = train_dataset.skip(train_batches // 5)
 
-#test_file_list = get_file_paths('datalake/data/xray/test/normal')
-test_file_list =get_file_paths('datalake/data/xray/test/bacteria')
-test_file_list = test_file_list + get_file_paths('datalake/data/xray/test/virus')
+test_file_list = get_file_list(image_storage + '/test/bacteria')
+test_file_list = test_file_list + get_file_list(image_storage + '/test/virus')
 
 image_data_array = np.empty(shape=(len(test_file_list),img_size, img_size, 3),dtype='int32')
 label_data_array = np.empty(shape=(len(test_file_list),),dtype='int32')
             
 for i,path in enumerate(test_file_list):
-  image_raw = client.get_object(Bucket=s3_bucket, Key=path)['Body'].read()       
-  img = Image.open(BytesIO(image_raw))
+  img = Image.open(open(path, 'rb', transport_params={'client': client}))
   img = img.resize((img_size,img_size),Image.ANTIALIAS)
   img = img.convert("RGB")
   img_np_array = np.asarray(img)
@@ -97,8 +89,6 @@ test_dataset = test_dataset.batch(batch_size)
 
 # # Model Training
 
-
-
 tf.test.gpu_device_name()
 
 
@@ -110,8 +100,6 @@ test_dataset = test_dataset.prefetch(buffer_size=AUTOTUNE)
 
 del image_data_array
 del label_data_array
-
-
 
 # ### Use data augmentation
 
