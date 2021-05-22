@@ -2,12 +2,15 @@ name: ML Demo
 description: >-
   AMP to build an image classifier for chest xrays using tensorflow
 author: Jeff Fletcher
-date: "2021-05-19"
-specification_version: 1.0
+prototype_version: 1.0
+date: "2020-09-29"
+api_version: 1
+
 environment_variables:
   TEST:
     default: "Testing ENV"
     description: "Access Key ID for accessing S3 bucket" 
+
 tasks:
   - type: run_session
     name: Run project bootstrap
