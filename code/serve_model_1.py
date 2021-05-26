@@ -23,6 +23,7 @@ model = tf.keras.models.load_model('/home/cdsw/models/model_1.h5')
 # ``` 
 # exec(open("data/base64_test_image_data.py").read())
 
+@cdsw.model_metrics
 def predict(args):
   im = Image.open(BytesIO(base64.b64decode(args['image'][22:])))#args['image'][22:])))
   im = im.resize((224,224),Image.ANTIALIAS)
@@ -35,6 +36,9 @@ def predict(args):
     prediction = "pneumonia"
   else:
     prediction = "normal"
+  cdsw.track_metric("input_images", args)
+  cdsw.track_metric("prediction",prediction)
+  cdsw.track_metric("prediction_value",float(prediction_value))
   return {
     "prediction":prediction,
     "prediction_value":float(prediction_value)
