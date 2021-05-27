@@ -19,7 +19,7 @@ import tensorflow as tf
 # ``` 
 # exec(open("data/base64_test_image_data.py").read())
 
-model = tf.keras.models.load_model('/home/cdsw/models/model_2.h5')
+model = tf.keras.models.load_model('models/model_2.h5')
 
 @cdsw.model_metrics
 def predict(args):
@@ -34,7 +34,7 @@ def predict(args):
     prediction = "virus"
   else:
     prediction = "bacteria"
-  cdsw.track_metric("input_images", args)
+  #cdsw.track_metric("input_images", args)
   cdsw.track_metric("prediction",prediction)
   cdsw.track_metric("prediction_value",float(prediction_value))  
   return {

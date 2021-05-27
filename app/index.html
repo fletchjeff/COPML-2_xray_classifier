@@ -7,6 +7,7 @@
 <link href="//fonts.googleapis.com/css?family=Open Sans:400,700" rel="stylesheet" type="text/css" />
 <link rel="stylesheet" href="css/normalize.css" />
 <link rel="stylesheet" href="css/skeleton.css" />
+<link rel="icon" type="image/png" href="favicon.png">
 <script src="https://d3js.org/d3.v5.min.js"></script>
 <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
 <script src="/app/js/script.js"></script>
@@ -25,42 +26,35 @@
 
   <div class="row">
     <div class="three columns">Actual Value :</div>
-    <div class="three columns" id="actual_value" style="font-weight: 600"></div>
+    <div class="three columns" id="actual_value" style="font-weight: 700">...</div>
   </div>
 
   <div class="row">
     <div class="three columns">Prediction Model 1:</div>
-    <div
-      class="three columns"
-      id="prediction_model_1"
-      style="font-weight: 700"
-    ></div>
+    <div class="three columns" id="prediction_model_1" style="font-weight: 700">...</div>
   </div>
 
   <div class="row">
-    <div class="three columns">Prediction Model 2:</div>
-    <div
-      class="three columns"
-      id="prediction_model_2"
-      style="font-weight: 700"
-    ></div>
+    <div class="three columns">Prediction Model 2: </div>
+    <div class="three columns" id="prediction_model_2" style="font-weight: 700" >...</div>
   </div>
 
   <div class="row" style="margin-top: 1%">
-    <div
-      class="offset-by-three three columns button"
-      onclick="get_new_image();"
-    >
+    <div class="offset-by-one three columns button" onclick="get_new_image();">
       New Image
     </div>
-    <div class="three columns button" onclick="go_fetch('img_test_normal');">
+    <div class="three columns button" onclick="go_fetch();">
       Predict
+    </div>
+    <div class="three columns button" onclick="explain_image();" id="image_explain_button">
+      Explain
     </div>
   </div>
 
   <div class="row">
-    <div class="twelve column" id="test_image">
-      <img id="img_test_normal" src="" class="u-max-full-width" />
+    <div class="twelve column" id="image_wrapper">
+      <img id="new_image" src="" class="u-max-full-width overlay_image" />
+      <img id="explain_overlay" src="" class="u-max-full-width overlay_image" />
     </div>
     <div id="loader" style="display: none">
       <div class="spinner">

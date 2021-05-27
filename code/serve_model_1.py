@@ -11,7 +11,7 @@ import tensorflow as tf
 
 #!ln -s /usr/local/cuda-11.1/targets/x86_64-linux/lib/libcusolver.so.11.0.1.105 /usr/local/cuda-11.1/targets/x86_64-linux/lib/libcusolver.so.10
 
-model = tf.keras.models.load_model('/home/cdsw/models/model_1.h5')
+model = tf.keras.models.load_model('models/model_1.h5')
 
 # If you wish to do any testing of a new model and need an encoded image to use to provide
 # arguments, uncomment and run the code below. It will create the `args` variable which you 
@@ -37,7 +37,7 @@ def predict(args):
     prediction = "pneumonia"
   else:
     prediction = "normal"
-  cdsw.track_metric("input_images", args)
+  #cdsw.track_metric("input_images", args)
   cdsw.track_metric("prediction",prediction)
   cdsw.track_metric("prediction_value",float(prediction_value))
   return {

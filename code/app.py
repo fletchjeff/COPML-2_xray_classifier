@@ -1,6 +1,13 @@
 from flask import Flask,send_from_directory,request,send_file, jsonify
 import logging, os, glob, random
-from IPython.display import Javascript,HTML
+import numpy as np
+import tensorflow as tf
+from random import sample
+from lime import lime_image
+from PIL import Image
+from skimage.segmentation import mark_boundaries
+from io import BytesIO  
+import base64
 #from pandas.io.json import dumps as jsonify
 
 log = logging.getLogger('werkzeug')
@@ -19,6 +26,52 @@ def random_image():
   virus_file = glob.glob("data/test/virus/*.jpeg")
   all_files = normal_file + bacteria_file + virus_file
   return jsonify({'file':random.choice(all_files)})
+
+@app.route("/explain_image", methods=['GET'])
+def explain_image():
+  model_1 = tf.keras.models.load_model('/home/cdsw/models/model_1.h5')
+  sample_image = request.args.get('image', '')
+  im = Image.open(sample_image)
+  im = im.resize((224,224),Image.ANTIALIAS)
+  im = im.convert("RGB")
+  im_array = tf.keras.preprocessing.image.img_to_array(im)
+  im_array = np.expand_dims(im_array, axis=0)
+
+  # Train explainer
+  explainer = lime_image.LimeImageExplainer()
+  explanation = explainer.explain_instance(im_array[0].astype('double'), model_1.predict)
+
+  # Create boudries
+  temp_1, mask_1 = explanation.get_image_and_mask(explanation.top_labels[0], positive_only=True, num_features=5, hide_rest=False)
+  blank = Image.new('RGB', (224, 224))
+  explained_image = mark_boundaries(blank,mask_1,mode='thick',color=(0,0.75,1))
+  img = Image.fromarray((explained_image * 255).astype(np.uint8))
+  img = img.convert("RGBA")
+
+  # Set Alpha
+  datas = img.getdata()
+  newData = []
+  for item in datas:
+      if item[0] == 0 and item[1] == 0 and item[2] == 0:
+          newData.append((0, 0, 0, 0))
+      else:
+          newData.append(item)
+
+  img.putdata(newData)
+
+  # Encode to base64
+  output = BytesIO()
+  img_read = Image.open(sample_image)
+  img.save(output, format='PNG')
+  im_data = output.getvalue()
+  image_data = base64.b64encode(im_data)
+  if not isinstance(image_data, str):
+      # Python 3, decode from bytes to string
+      image_data = image_data.decode()
+  data_url = 'data:image/png;base64,' + image_data
+  return jsonify({'image':data_url})
+
+
 
 @app.route('/app/<path:path>')
 def send_file(path):

@@ -38,6 +38,16 @@
 }
 */
 
+#image_wrapper {
+  position: relative;
+}
+
+.overlay_image {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
 #loader {
     opacity: 0.9;
     position: absolute;
