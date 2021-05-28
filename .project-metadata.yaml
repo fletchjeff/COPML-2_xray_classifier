@@ -62,7 +62,7 @@ tasks:
           path: "data/test/normal/IM-0117-0001.jpeg"
           image: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABwAAAAcCAYAAAByDd+UAAAARUlEQVRIS+3SwQkAQAwCQdN/0XclyELIa/MVEYZMkpfDGwe3tSXdFo2kkmIBnwaTtYKkTQjnkmKyVpC0CeFcUkzWCuekH906HAF1NLazAAAAAElFTkSuQmCC"
         response: ""
-    target_file_path: code/server_model_1.py
+    target_file_path: code/serve_model_1.py
     target_function_name: predict
     kernel: python3
 
@@ -93,7 +93,7 @@ tasks:
           path: "data/test/normal/IM-0117-0001.jpeg"
           image: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABwAAAAcCAYAAAByDd+UAAAARUlEQVRIS+3SwQkAQAwCQdN/0XclyELIa/MVEYZMkpfDGwe3tSXdFo2kkmIBnwaTtYKkTQjnkmKyVpC0CeFcUkzWCuekH906HAF1NLazAAAAAElFTkSuQmCC"
         response: ""
-    target_file_path: code/server_model_2.py
+    target_file_path: code/serve_model_2.py
     target_function_name: predict
     kernel: python3
 

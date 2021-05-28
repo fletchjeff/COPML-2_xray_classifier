@@ -1,5 +1,6 @@
 .*
 R
+data/*
 data_temp/*
 node_modules
 *.pyc
