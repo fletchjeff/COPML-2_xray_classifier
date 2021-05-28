@@ -74,7 +74,7 @@ for directory in glob.glob("data/test/*"):
       print("Uploaded {} images".format(i))
       print("Last image uploaded: {}".format(image))     
 
-!hdfs dfs -ls -R $STORAGE/user/$HADOOP_USER_NAME/data/xray/ | wc -l
+!hadoop fs -ls -R $STORAGE/user/$HADOOP_USER_NAME/data/xray/ | wc -l
 
 #!hdfs dfs -mkdir -p $STORAGE/user/$HADOOP_USER_NAME/data/xray/train
 #!hdfs dfs -mkdir -p $STORAGE/user/$HADOOP_USER_NAME/data/xray/test
