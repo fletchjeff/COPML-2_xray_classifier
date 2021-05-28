@@ -12,6 +12,10 @@ import matplotlib.pyplot as plt
 from cmlbootstrap import CMLBootstrap
 from subprocess import check_output
 from smart_open import open
+import datetime
+
+run_time_suffix = datetime.datetime.now()
+run_time_suffix = run_time_suffix.strftime("%d%m%Y%H%M%S")
 
 # # S3 connection
 # This will establish a boto3 connection to the S3 bucket where the images are stored
@@ -24,7 +28,7 @@ client = cml.boto3_client(os.environ['IDBROKER'])
 
 def get_file_list(path):
   file_list = []
-  hdfs_outout = check_output(['hdfs', 'dfs', '-ls' , path],universal_newlines=True)
+  hdfs_outout = check_output(['hadoop', 'fs', '-ls' , path],universal_newlines=True)
   for file in hdfs_outout.split("\n")[1:-1]:
     if file.split(" ")[0][0] == '-':
       file_list.append(file.split(" ")[-1])#.split("/")[-1])
@@ -38,6 +42,11 @@ img_size = 224
 train_file_list = get_file_list(image_storage + '/train/normal')
 train_file_list = train_file_list + get_file_list(image_storage + '/train/bacteria')
 train_file_list = train_file_list + get_file_list(image_storage + '/train/virus')
+
+# Keeping track of data used to train the model
+with open(open("{}/model_1_training_run_{}.txt".format(image_storage,run_time_suffix), 'wb', transport_params={'client': client})) as f:
+    for image_path in train_file_list:
+        f.write("{}\n".format(image_path))
 
 image_data_array = np.empty(shape=(len(train_file_list),img_size, img_size, 3),dtype='int32')
 label_data_array = np.empty(shape=(len(train_file_list),),dtype='int32')
