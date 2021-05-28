@@ -1,6 +1,15 @@
 const model_url = window.location.origin.substr(0,window.location.origin.indexOf(":")+1) + "//" + "modelservice." + window.location.origin.substr(window.location.origin.indexOf(".")+1) + '/model'
-const api_key_1 = "my87udph3c9up73g7nwv3b3pdt1hzf4h";
-const api_key_2 = "mgp9zye1k3rfx7hik70oeaibk4tw08rk";
+//const api_key_1 = "my87udph3c9up73g7nwv3b3pdt1hzf4h";
+//const api_key_2 = "mgp9zye1k3rfx7hik70oeaibk4tw08rk";
+
+const model_key_url = window.location.origin + '/model_access_keys'
+
+fetch(model_key_url)
+  .then(response => response.json())
+  .then(function(data) {
+    api_key_1 = data.model_1_access_key
+    api_key_2 = data.model_2_access_key
+  })
 
 function go_fetch(from_explain=false) {
   d3.select("#loader").attr("style", "display:block");

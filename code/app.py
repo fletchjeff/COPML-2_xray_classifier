@@ -8,6 +8,7 @@ from PIL import Image
 from skimage.segmentation import mark_boundaries
 from io import BytesIO  
 import base64
+from cmlbootstrap import CMLBootstrap
 #from pandas.io.json import dumps as jsonify
 
 log = logging.getLogger('werkzeug')
@@ -71,6 +72,23 @@ def explain_image():
   data_url = 'data:image/png;base64,' + image_data
   return jsonify({'image':data_url})
 
+@app.route("/model_access_keys")
+def model_access_keys():
+  cml = CMLBootstrap()
+  project_id = cml.get_project()['id']
+  params = {"projectId":project_id,"latestModelDeployment":True,"latestModelBuild":True}
+  for model in cml.get_models(params):
+    if model['name'] == 'XRay Model 1':
+      model_id_1 = model['id']
+    else:
+      model_id_2 = model['id']
+
+  latest_model_1 = cml.get_model({"id": model_id_1, "latestModelDeployment": True, "latestModelBuild": True})
+  latest_model_2 = cml.get_model({"id": model_id_2, "latestModelDeployment": True, "latestModelBuild": True})
+  return jsonify({
+    'model_1_access_key': latest_model_1['accessKey'],
+    'model_2_access_key': latest_model_2['accessKey']
+  })
 
 
 @app.route('/app/<path:path>')
