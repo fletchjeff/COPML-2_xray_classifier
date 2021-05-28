@@ -1,3 +1,7 @@
+# When deploying the model, use the following as the input for the model test:
+# {"path": "data/test/normal/IM-0117-0001.jpeg","image": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABwAAAAcCAYAAAByDd+UAAAARUlEQVRIS+3SwQkAQAwCQdN/0XclyELIa/MVEYZMkpfDGwe3tSXdFo2kkmIBnwaTtYKkTQjnkmKyVpC0CeFcUkzWCuekH906HAF1NLazAAAAAElFTkSuQmCC"}
+
+
 import cdsw
 from PIL import Image, ImageFilter
 import numpy as np
