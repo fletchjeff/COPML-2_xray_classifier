@@ -1,5 +1,5 @@
-!pip3 install -r requirements.txt --progress-bar off
 !pip3 install --upgrade git+https://github.com/fletchjeff/cmlbootstrap#egg=cmlbootstrap
+!pip3 install --progress-bar off tensorflow==2.4.1 flask==1.0.3 lime==0.2.0.1 ipywidgets==7.6.3 Pillow==8.2.0
 
 from flask import Flask,send_from_directory,request,send_file, jsonify
 import logging, os, glob, random
