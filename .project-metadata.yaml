@@ -74,7 +74,7 @@ tasks:
     gpu: 0
     
  
-   - type: create_model
+  - type: create_model
     name: XRay Model 2
     entity_label: xray_model_2
     description: XRay model 2 endpoint
