@@ -61,7 +61,7 @@ def explain_image():
 
   # Encode to base64
   output = BytesIO()
-  img_read = Image.open(sample_image)
+  #img_read = Image.open(sample_image)
   img.save(output, format='PNG')
   im_data = output.getvalue()
   image_data = base64.b64encode(im_data)

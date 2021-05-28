@@ -11,48 +11,36 @@
 <script src="https://d3js.org/d3.v5.min.js"></script>
 <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
 <script src="/app/js/script.js"></script>
-
 <div class="container">
+  <h4 style="margin-top: 2%;">X-Ray Classifier</h4>
+  <p>
+    The X-Ray Classifier Application will send the randomly selected image
+    to the deployed models for a prediction and update the prediction results in
+    real time.
+  </p>
   <div class="row">
-    <div class="twelve column" style="margin-top: 5%">
-      <h2>X-Ray Classifier</h2>
-      <p>
-        The X-Ray Classifier Application will send the randomly selected image
-        to the deployed models for a prediction and update the display values in
-        real time.
-      </p>
-    </div>
+    <div class="offset-by-one three columns button" onclick="get_new_image();">New Image</div>
+    <div class="three columns button" onclick="go_fetch();">Predict</div>
+    <div class="three columns button" onclick="explain_image();" id="image_explain_button">Explain</div>
   </div>
 
-  <div class="row">
+  <div class="row" style="margin-top: 2%;">
     <div class="three columns">Actual Value :</div>
-    <div class="three columns" id="actual_value" style="font-weight: 700">...</div>
+    <div class="four columns" id="actual_value" style="font-weight: 700">...</div>
   </div>
 
   <div class="row">
-    <div class="three columns">Prediction Model 1:</div>
-    <div class="three columns" id="prediction_model_1" style="font-weight: 700">...</div>
+    <div class="three columns">Model 1:</div>
+    <div class="four columns" id="prediction_model_1" style="font-weight: 700">...</div>
   </div>
 
   <div class="row">
-    <div class="three columns">Prediction Model 2: </div>
-    <div class="three columns" id="prediction_model_2" style="font-weight: 700" >...</div>
+    <div class="three columns">Model 2: </div>
+    <div class="four columns" id="prediction_model_2" style="font-weight: 700" >...</div>
   </div>
 
-  <div class="row" style="margin-top: 1%">
-    <div class="offset-by-one three columns button" onclick="get_new_image();">
-      New Image
-    </div>
-    <div class="three columns button" onclick="go_fetch();">
-      Predict
-    </div>
-    <div class="three columns button" onclick="explain_image();" id="image_explain_button">
-      Explain
-    </div>
-  </div>
-
-  <div class="row">
-    <div class="twelve column" id="image_wrapper">
+  <div class="row" style="margin-top: 2%;">
+    <div id="image_wrapper">
       <img id="new_image" src="" class="u-max-full-width overlay_image" />
       <img id="explain_overlay" src="" class="u-max-full-width overlay_image" />
     </div>

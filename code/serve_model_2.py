@@ -14,6 +14,7 @@ import tensorflow as tf
 # from the browser.
 # ```
 # args = {
+#   "path" : "data/test/normal/IM-0117-0001.jpeg" 
 #   "image" : "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABGgAAALwC ...."
 # }
 # ``` 
@@ -34,7 +35,7 @@ def predict(args):
     prediction = "virus"
   else:
     prediction = "bacteria"
-  #cdsw.track_metric("input_images", args)
+  cdsw.track_metric("img_path", args['path'])
   cdsw.track_metric("prediction",prediction)
   cdsw.track_metric("prediction_value",float(prediction_value))  
   return {

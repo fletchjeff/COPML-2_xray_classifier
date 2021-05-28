@@ -4,11 +4,14 @@ const api_key_2 = "mgp9zye1k3rfx7hik70oeaibk4tw08rk";
 
 function go_fetch(from_explain=false) {
   d3.select("#loader").attr("style", "display:block");
+  let image_path = d3.select("#new_image").node().src
+  image_path = image_path.substring(image_path.indexOf("/data")+1)
   let image_data = getBase64Image(document.getElementById('new_image'));
   let post_data_1 = {
     accessKey: api_key_1,
     request: {
-      "image": image_data,
+      "path" : image_path,
+      "image": image_data
     },
   };
 
@@ -23,21 +26,20 @@ function go_fetch(from_explain=false) {
     .then(function (response) {
       d3.select("#prediction_model_1").text(
         response.response.prediction.prediction +
-          " (" +
-          response.response.prediction.prediction_value.toFixed(5) +
-          ")"
+          " (" + response.response.prediction.prediction_value.toFixed(3) + ")"
       );
       if (response.response.prediction.prediction != "normal") {
         let post_data_2 = {
           accessKey: api_key_2,
           request: {
-            image: image_data,
+            "path" : image_path,
+            "image": image_data
           },
         };
 
         fetch(model_url, {
-          method: "POST", // or 'PUT'
-          body: JSON.stringify(post_data_2), // data can be `string` or {object}!
+          method: "POST",
+          body: JSON.stringify(post_data_2),
           headers: {
             "Content-Type": "application/json",
           },
@@ -45,7 +47,7 @@ function go_fetch(from_explain=false) {
           .then((res) => res.json())
           .then(function (response) {
             d3.select("#prediction_model_2").text(
-              response.response.prediction.prediction + " (" + response.response.prediction.prediction_value.toFixed(5) + ")"
+              response.response.prediction.prediction + " (" + response.response.prediction.prediction_value.toFixed(3) + ")"
             );
             !from_explain ? d3.select("#loader").attr("style", "display:none") : null
           })
@@ -58,19 +60,16 @@ function go_fetch(from_explain=false) {
 }
 
 function getBase64Image(img) {
-  var canvas = document.createElement("canvas");
-  scaling = document.getElementById("new_image").naturalWidth / 1000;
+  let canvas = document.createElement("canvas");
+  let scaling = document.getElementById("new_image").naturalWidth / 1000;
   canvas.width = img.naturalWidth / scaling;
   canvas.height = img.naturalHeight / scaling;
-  var ctx = canvas.getContext("2d");
+  let ctx = canvas.getContext("2d");
   ctx.drawImage(
-    img,
-    0,
-    0,
+    img,0,0,
     img.naturalWidth,
     img.naturalHeight,
-    0,
-    0,
+    0,0,
     canvas.width,
     canvas.height
   );
@@ -83,7 +82,7 @@ function get_new_image() {
   d3.select("#prediction_model_1").text("...");
   d3.select("#prediction_model_2").text("...");
   fetch(window.location.origin + "/random_image", {
-    method: "GET", // or 'PUT'
+    method: "GET", 
     headers: {
       "Content-Type": "application/json",
     },
@@ -111,20 +110,20 @@ function explain_image() {
     go_fetch(true);
   }
   d3.select("#loader").attr("style", "display:block");
-  image_width = d3.select("#new_image").node().getBoundingClientRect().width
-  image_height = d3.select("#new_image").node().getBoundingClientRect().height
-  image_path = d3.select("#new_image").node().src
+  let image_width = d3.select("#new_image").node().getBoundingClientRect().width
+  let image_height = d3.select("#new_image").node().getBoundingClientRect().height
+  let image_path = d3.select("#new_image").node().src
   image_path = image_path.substring(image_path.indexOf("/data")+1)
-  explain_image_url = explain_url + "?image=" + image_path
+  let explain_image_url = explain_url + "?image=" + image_path
   fetch(explain_image_url)
-  .then(response => response.json())
-  .then(function(data) {
-    d3.select("#explain_overlay").attr("src",data.image);
-    d3.select("#explain_overlay").attr("width",image_width);
-    d3.select("#explain_overlay").attr("height",image_height);
-    d3.select("#loader").attr("style", "display:none");
-    d3.select("#explain_overlay").attr("style","visibility:block");
-    d3.select("#image_explain_button").attr("onclick","toggle_explained_image();")
+    .then(response => response.json())
+    .then(function(data) {
+      d3.select("#explain_overlay").attr("src",data.image);
+      d3.select("#explain_overlay").attr("width",image_width);
+      d3.select("#explain_overlay").attr("height",image_height);
+      d3.select("#loader").attr("style", "display:none");
+      d3.select("#explain_overlay").attr("style","visibility:block");
+      d3.select("#image_explain_button").attr("onclick","toggle_explained_image();")
   });
 }
 

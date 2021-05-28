@@ -19,6 +19,7 @@ model = tf.keras.models.load_model('models/model_1.h5')
 # from the browser.
 # ```
 # args = {
+#   "path" : "data/test/normal/IM-0117-0001.jpeg" 
 #   "image" : "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABGgAAALwC ...."
 # }
 # ``` 
@@ -37,7 +38,7 @@ def predict(args):
     prediction = "pneumonia"
   else:
     prediction = "normal"
-  #cdsw.track_metric("input_images", args)
+  cdsw.track_metric("img_path", args['path'])
   cdsw.track_metric("prediction",prediction)
   cdsw.track_metric("prediction_value",float(prediction_value))
   return {
