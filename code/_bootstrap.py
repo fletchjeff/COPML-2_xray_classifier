@@ -1,7 +1,8 @@
+# Create the directories and upload data
 !pip3 install --upgrade git+https://github.com/fletchjeff/cmlbootstrap#egg=cmlbootstrap
 !pip3 install -r requirements.txt --progress-bar off
-
-# Create the directories and upload data
+!curl -O https://cdp-demo-data.s3-us-west-2.amazonaws.com/xray_data.tgz
+!tar xzvf xray_data.tgz
 
 from cmlbootstrap import CMLBootstrap
 import os

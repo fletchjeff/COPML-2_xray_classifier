@@ -108,7 +108,7 @@ tasks:
 
   - type: start_application
     name: XRay Classifier App
-    subdomain: xray_classifier
+    subdomain: xrayapp
     script: code/app.py
     kernel: python3
     memory: 4
