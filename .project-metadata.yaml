@@ -12,13 +12,13 @@ runtimes:
     edition: Nvidia GPU
     
 tasks:
-  - type: run_session
-    name: Run project bootstrap
-    script: code/_bootstrap.py
-    kernel: python3
-    cpu: 2
-    memory: 4
-    gpu: 0
+  # - type: run_session
+  #   name: Run project bootstrap
+  #   script: code/_bootstrap.py
+  #   kernel: python3
+  #   cpu: 2
+  #   memory: 4
+  #   gpu: 0
   
   - type: create_job
     name: Train Model 1
