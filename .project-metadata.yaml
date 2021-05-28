@@ -12,15 +12,15 @@ runtimes:
     edition: Nvidia GPU
     
 tasks:
-- type: run_session
-  name: How to be greeted interactively
-  code: |
-    !pip3 install -r requirements.txt --progress-bar off
-    !pip3 install --upgrade git+https://github.com/fletchjeff/cmlbootstrap#egg=cmlbootstrap
-  kernel: python3
-  memory: 1
-  cpu: 1
-  gpu: 0
+  - type: run_session
+    name: How to be greeted interactively
+    code: |
+      !pip3 install -r requirements.txt --progress-bar off
+      !pip3 install --upgrade git+https://github.com/fletchjeff/cmlbootstrap#egg=cmlbootstrap
+    kernel: python3
+    memory: 1
+    cpu: 1
+    gpu: 0
   
   - type: create_job
     name: Train Model 1
