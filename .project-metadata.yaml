@@ -32,7 +32,7 @@ tasks:
     cpu: 4
     memory: 32
     gpu: 1
-    
+
   - type: create_job
     name: Train Model 2
     entity_label: train_model_2
@@ -74,7 +74,6 @@ tasks:
     memory: 4
     cpu: 2
     gpu: 0
-    
     
   - type: create_model
     name: XRay Model 2
