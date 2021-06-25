@@ -12,20 +12,20 @@ runtimes:
     edition: Nvidia GPU
     
 tasks:
-  # - type: run_session
-  #   name: Install Dependencies
-  #   code: |
-  #     !pip3 install -r requirements.txt --progress-bar off
-  #     !pip3 install --upgrade git+https://github.com/fletchjeff/cmlbootstrap#egg=cmlbootstrap
-  #   kernel: python3
-  #   memory: 4
-  #   cpu: 2
-  #   gpu: 0
+  - type: run_session
+    name: Install Dependencies
+    code: |
+      !pip3 install -r requirements.txt --progress-bar off
+      !pip3 install --upgrade git+https://github.com/fletchjeff/cmlbootstrap#egg=cmlbootstrap
+    kernel: python3
+    memory: 4
+    cpu: 2
+    gpu: 0
   
   - type: create_job
     name: Train Model 1
     entity_label: train_model_1
-    script: code/train_model_1.py
+    script: code/model_train_1.py
     short_summary: Trains the first XRay Model
     environment_variables:
     kernel: python3
@@ -36,7 +36,7 @@ tasks:
   - type: create_job
     name: Train Model 2
     entity_label: train_model_2
-    script: code/train_model_2.py
+    script: code/model_train_2.py
     short_summary: Trains the first XRay Model
     environment_variables:
     kernel: python3
@@ -75,7 +75,7 @@ tasks:
     cpu: 2
     gpu: 0
     
- 
+    
   - type: create_model
     name: XRay Model 2
     entity_label: xray_model_2
@@ -108,8 +108,8 @@ tasks:
 
   - type: start_application
     name: XRay Classifier App
-    subdomain: xrayapp
-    script: code/app.py
+    subdomain: xray-app
+    script: code/application.py
     kernel: python3
     memory: 4
     cpu: 2

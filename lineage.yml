@@ -1,0 +1,9 @@
+XRay Model 1:
+  metadata:
+    training_imageset: "image list storage location"
+    training_file: "code/train_model_1.py"
+
+XRay Model 2:                              
+  metadata:                               #
+    training_imageset: "image list storage location"
+    training_file: "code/train_model_2.py"

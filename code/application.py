@@ -1,6 +1,3 @@
-!pip3 install --upgrade git+https://github.com/fletchjeff/cmlbootstrap#egg=cmlbootstrap
-!pip3 install --upgrade --progress-bar off -r requirements.txt
-
 from flask import Flask,send_from_directory,request,send_file, jsonify
 import logging, os, glob, random
 import numpy as np

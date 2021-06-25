@@ -1,14 +1,7 @@
-# Chest X-Ray Classifier
-This project is a Cloudera Machine Learning 
-([CML](https://www.cloudera.com/products/machine-learning.html)) **Applied Machine Learning Prototype** and
-has all the code and data needed to deploy an end-to-end machine learning project on a running CML instance.
+# COPML Example 2 - Detecting Pneumonia in Chest X-Rays
+This repoistory is used as the second example in the [Continuous Operations for Production Machine Learning](https://linktothis.com) (COPML) document that provides a framework for maintaning machine learning projects in production. The goal is to build an image classifier model predict the likelihood that a patient has pneumonia based on an image of their chest x-ray. The primary goal of this repository is to build an image classifier that predict whether a patient has pneumonia and if its a viral or bacterial pnemonia from a chest xray image. The project uses tensorflow and transfer learning with MobileNetV2 model, trained on a labled chest x-ray image dataset available on [Kaggle](https://www.kaggle.com/paultimothymooney/chest-xray-pneumonia).
 
 ![app](images/app.png)
-
-The primary goal of this repository is to build an image classifier that predict whether a patient has 
-pneumonia and if its a viral or bacterial pnemonia from a chest xray image. The project uses tensorflow and a
-combination of MobileNetV2 and EfficientNetB5 models, trained on a labled chest x-ray image dataset available
-on [Kaggle](https://www.kaggle.com/paultimothymooney/chest-xray-pneumonia).
 
 The aim is to show and end-to-end process of how to build an application in CML that can take a new image and 
 make a prediction on that image in real time use two separate models. The project also uploads the image data 
