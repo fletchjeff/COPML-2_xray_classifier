@@ -22,89 +22,89 @@ tasks:
     cpu: 2
     gpu: 0
   
-    - type: create_job
-      name: Train Model 1
-      entity_label: train_model_1
-      script: code/train_model_1.py
-      short_summary: Trains the first XRay Model
-      environment_variables:
-      kernel: python3
-      cpu: 4
-      memory: 32
-      gpu: 1
+  - type: create_job
+    name: Train Model 1
+    entity_label: train_model_1
+    script: code/train_model_1.py
+    short_summary: Trains the first XRay Model
+    environment_variables:
+    kernel: python3
+    cpu: 4
+    memory: 32
+    gpu: 1
 
-    - type: create_job
-      name: Train Model 2
-      entity_label: train_model_2
-      script: code/train_model_2.py
-      short_summary: Trains the first XRay Model
-      environment_variables:
-      kernel: python3
-      cpu: 4
-      memory: 32
-      gpu: 1
+  - type: create_job
+    name: Train Model 2
+    entity_label: train_model_2
+    script: code/train_model_2.py
+    short_summary: Trains the first XRay Model
+    environment_variables:
+    kernel: python3
+    cpu: 4
+    memory: 32
+    gpu: 1
 
 
-    - type: create_model
-      name: XRay Model 1
-      entity_label: xray_model_1
-      description: XRay model 1 endpoint
-      default_resources:
-        cpu: 2
-        memory: 4
-      default_replication_policy:
-        type: fixed
-        num_replicas: 1
-
-    - type: build_model
-      name: XRay Model 1
-      entity_label: xray_model_1
-      examples:
-        - request:
-            path: "data/test/normal/IM-0117-0001.jpeg"
-            image: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABwAAAAcCAYAAAByDd+UAAAARUlEQVRIS+3SwQkAQAwCQdN/0XclyELIa/MVEYZMkpfDGwe3tSXdFo2kkmIBnwaTtYKkTQjnkmKyVpC0CeFcUkzWCuekH906HAF1NLazAAAAAElFTkSuQmCC"
-          response: ""
-      target_file_path: code/serve_model_1.py
-      target_function_name: predict
-      kernel: python3
-
-    - type: deploy_model
-      name: XRay Model 1
-      entity_label: xray_model_1
-      memory: 4
+  - type: create_model
+    name: XRay Model 1
+    entity_label: xray_model_1
+    description: XRay model 1 endpoint
+    default_resources:
       cpu: 2
-      gpu: 0
-
-
-    - type: create_model
-      name: XRay Model 2
-      entity_label: xray_model_2
-      description: XRay model 2 endpoint
-      default_resources:
-        cpu: 2
-        memory: 4
-      default_replication_policy:
-        type: fixed
-        num_replicas: 1
-
-    - type: build_model
-      name: XRay Model 2
-      entity_label: xray_model_2
-      examples:
-        - request:
-            path: "data/test/normal/IM-0117-0001.jpeg"
-            image: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABwAAAAcCAYAAAByDd+UAAAARUlEQVRIS+3SwQkAQAwCQdN/0XclyELIa/MVEYZMkpfDGwe3tSXdFo2kkmIBnwaTtYKkTQjnkmKyVpC0CeFcUkzWCuekH906HAF1NLazAAAAAElFTkSuQmCC"
-          response: ""
-      target_file_path: code/serve_model_2.py
-      target_function_name: predict
-      kernel: python3
-
-    - type: deploy_model
-      name: XRay Model 2
-      entity_label: xray_model_2
       memory: 4
+    default_replication_policy:
+      type: fixed
+      num_replicas: 1
+
+  - type: build_model
+    name: XRay Model 1
+    entity_label: xray_model_1
+    examples:
+      - request:
+          path: "data/test/normal/IM-0117-0001.jpeg"
+          image: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABwAAAAcCAYAAAByDd+UAAAARUlEQVRIS+3SwQkAQAwCQdN/0XclyELIa/MVEYZMkpfDGwe3tSXdFo2kkmIBnwaTtYKkTQjnkmKyVpC0CeFcUkzWCuekH906HAF1NLazAAAAAElFTkSuQmCC"
+        response: ""
+    target_file_path: code/serve_model_1.py
+    target_function_name: predict
+    kernel: python3
+
+  - type: deploy_model
+    name: XRay Model 1
+    entity_label: xray_model_1
+    memory: 4
+    cpu: 2
+    gpu: 0
+
+
+  - type: create_model
+    name: XRay Model 2
+    entity_label: xray_model_2
+    description: XRay model 2 endpoint
+    default_resources:
       cpu: 2
-      gpu: 0
+      memory: 4
+    default_replication_policy:
+      type: fixed
+      num_replicas: 1
+
+  - type: build_model
+    name: XRay Model 2
+    entity_label: xray_model_2
+    examples:
+      - request:
+          path: "data/test/normal/IM-0117-0001.jpeg"
+          image: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABwAAAAcCAYAAAByDd+UAAAARUlEQVRIS+3SwQkAQAwCQdN/0XclyELIa/MVEYZMkpfDGwe3tSXdFo2kkmIBnwaTtYKkTQjnkmKyVpC0CeFcUkzWCuekH906HAF1NLazAAAAAElFTkSuQmCC"
+        response: ""
+    target_file_path: code/serve_model_2.py
+    target_function_name: predict
+    kernel: python3
+
+  - type: deploy_model
+    name: XRay Model 2
+    entity_label: xray_model_2
+    memory: 4
+    cpu: 2
+    gpu: 0
 
   - type: start_application
     name: XRay Classifier App
