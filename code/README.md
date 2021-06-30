@@ -42,7 +42,7 @@ The project includes a Jupyter Notebook that does some basic data exploration an
 
 ![data](../images/person19_virus_50.jpeg)
 
-Open a Jupyter Notebook session (rather than a work bench): python3, 1 CPU, 2 GB and open the `notebooks/data_exploration.ipynb` file. 
+Open a Jupyter Notebook session (rather than a work bench): python3, 1 CPU, 2 GB and open the `notebooks/data_explorationt.ipynb` file. 
 
 At the top of the page click **Cells > Run All**.
 
