@@ -14,9 +14,10 @@ runtimes:
 tasks:
   - type: run_session
     name: Install Dependencies
-    code: |
-      !pip3 install -r requirements.txt --progress-bar off
-      !pip3 install --upgrade git+https://github.com/fletchjeff/cmlbootstrap#egg=cmlbootstrap
+    script: code/_bootstrap.py
+    #code: |
+    #  !pip3 install -r requirements.txt --progress-bar off
+    #  !pip3 install --upgrade git+https://github.com/fletchjeff/cmlbootstrap#egg=cmlbootstrap
     kernel: python3
     memory: 4
     cpu: 2

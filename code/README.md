@@ -40,7 +40,7 @@ The next step is for the data science team to explore the dataset and come up wi
 ### Explore Data
 The project includes a Jupyter Notebook that does some basic data exploration and visualistaion. It is to show how this would be part of the data science workflow.
 
-![data](../images/data.png)
+![data](../images/person19_virus_50.jpeg)
 
 Open a Jupyter Notebook session (rather than a work bench): python3, 1 CPU, 2 GB and open the `notebooks/data_exploration.ipynb` file. 
 
