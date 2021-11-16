@@ -11,3 +11,4 @@ __pycache__
 notebooks/.ipynb_checkpoints
 .vscode
 .ipynb_checkpoints
+xray_data.tgz
